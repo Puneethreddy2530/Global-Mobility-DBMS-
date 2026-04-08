@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ORBITAL COMMAND | Global Mobility Intelligence</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-variant": "#262626",
+                        "on-primary-fixed-variant": "#005e64",
+                        "surface": "#0e0e0e",
+                        "on-tertiary-container": "#000000",
+                        "outline": "#777575",
+                        "primary-fixed-dim": "#00deec",
+                        "surface-container-high": "#201f1f",
+                        "on-primary": "#005d63",
+                        "on-secondary-fixed-variant": "#6300e2",
+                        "surface-container-highest": "#262626",
+                        "primary-dim": "#00deec",
+                        "on-surface": "#ffffff",
+                        "on-error": "#490006",
+                        "secondary-fixed": "#dac9ff",
+                        "on-background": "#ffffff",
+                        "on-primary-container": "#005359",
+                        "surface-container": "#1a1919",
+                        "inverse-on-surface": "#565554",
+                        "on-secondary": "#290067",
+                        "tertiary-dim": "#006ef1",
+                        "primary": "#8ff5ff",
+                        "background": "#0e0e0e",
+                        "surface-container-lowest": "#000000",
+                        "on-surface-variant": "#adaaaa",
+                        "error-dim": "#d7383b",
+                        "secondary-fixed-dim": "#ceb9ff",
+                        "secondary-dim": "#874cff",
+                        "outline-variant": "#494847",
+                        "on-secondary-container": "#f8f1ff",
+                        "surface-dim": "#0e0e0e",
+                        "tertiary": "#6b9cff",
+                        "on-tertiary-fixed": "#00163c",
+                        "surface-tint": "#8ff5ff",
+                        "surface-bright": "#2c2c2c",
+                        "on-secondary-fixed": "#41009a",
+                        "on-tertiary": "#001e4c",
+                        "secondary": "#ac89ff",
+                        "tertiary-container": "#0676ff",
+                        "error-container": "#9f0519",
+                        "on-error-container": "#ffa8a3",
+                        "tertiary-fixed-dim": "#75a1ff",
+                        "inverse-primary": "#006a71",
+                        "error": "#ff716c",
+                        "secondary-container": "#7000ff",
+                        "surface-container-low": "#131313",
+                        "on-tertiary-fixed-variant": "#00367d",
+                        "primary-container": "#00eefc",
+                        "tertiary-fixed": "#8cb0ff",
+                        "primary-fixed": "#00eefc",
+                        "on-primary-fixed": "#003f43",
+                        "inverse-surface": "#fcf8f8"
+                    },
+                    fontFamily: {
+                        "headline": ["Space Grotesk"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" },
+                },
+            },
+        }
+    </script>
+<style>.material-symbols-outlined {
+    font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24
+    }
+body {
+    background-color: #0e0e0e;
+    color: #fff;
+    font-family: "Inter", sans-serif;
+    overflow-x: hidden
+    }
+.glass-panel {
+    background: rgba(25, 25, 25, 0.4);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px)
+    }
+.neon-glow-primary {
+    box-shadow: 0 0 15px rgba(143, 245, 255, 0.15)
+    }
+.neon-border-cyan {
+    border: 1px solid rgba(143, 245, 255, 0.1)
+    }
+.grain-overlay {
+    background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuBcATMUdJnR8O_8FqzhTLmKk7C_aUG8FaPDSxu0zVT17Q1tcwVWxXqJUXpSZUqAIm5eZionWiVGSSnlX_K6m-6XerTW23TAgliZ1tvj9zyXwczUiHQFnvcprQM0xBrZnNohphrbBdy5WrpYwIiy-L0GTOqGaLZnNwACgVmVwXIIMEXvZzyxiljTeisw2yi7SIp_cNdcpu-MeSoBL3vOYpAcNbb0Y3wPc08f0r6i_3bQ4P34Fe14Kl_pQzK5EN-XV53xyY7kwTq1Rso);
+    opacity: 0.03;
+    pointer-events: none
+    }
+.asymmetric-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 1.5rem
+    }</style>
+</head>
+<body class="selection:bg-primary selection:text-surface-container-lowest">
+<!-- Top Navigation Bar -->
+<nav class="fixed top-0 w-full z-[100] bg-[#0e0e0e]/40 backdrop-blur-3xl border-b border-[#8ff5ff]/10 flex justify-between items-center px-8 h-16 w-full shadow-[0_0_20px_rgba(0,240,255,0.05)]">
+<div class="text-xl font-bold tracking-tighter text-[#00F0FF] uppercase font-['Space_Grotesk']">
+            ORBITAL COMMAND
+        </div>
+<div class="hidden md:flex space-x-8 font-['Space_Grotesk'] tracking-tight">
+<a class="text-[#00F0FF] border-b-2 border-[#00F0FF] pb-1" href="#">Fleet</a>
+<a class="text-slate-400 hover:text-white transition-colors" href="#">Network</a>
+<a class="text-slate-400 hover:text-white transition-colors" href="#">Nodes</a>
+<a class="text-slate-400 hover:text-white transition-colors" href="#">Analytics</a>
+</div>
+<div class="flex items-center gap-6">
+        <!-- Data source badge -->
+        <span id="data-source-badge"
+              class="text-[9px] font-bold uppercase tracking-widest border rounded-full px-3 py-1 font-mono"
+              style="color:#f59e0b;border-color:rgba(245,158,11,0.3)">CONNECTING…</span>
+<span class="material-symbols-outlined text-[#00F0FF] cursor-pointer hover:bg-[#8ff5ff]/5 p-2 rounded-full transition-all">notifications</span>
+<span class="material-symbols-outlined text-[#00F0FF] cursor-pointer hover:bg-[#8ff5ff]/5 p-2 rounded-full transition-all">settings</span>
+<div class="w-8 h-8 rounded-full border border-primary/30 overflow-hidden">
+<img alt="User Intelligence Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBhGdI0kbS1P8-ptSwX95JTuoMqpN2vCTg8A63y_YluQrbQxoXrEPUd4EfpZkwG2iMragdPJRlgSVr-taMGqbt7-3HJLuXoRmdlkYITmNbD-5DxTdySFbbziyhdg9sEtfdgux7Kr5LMHhaxNGMjq9YOR5qwEYdz8Cx54P3VZ2Qi4RRsfI2KEib_W9b1kxoIA0z8FMpp5yRFXkJBSshC4YdVP02qbB1TnbAIZWE3F_odGxyT7HU5AVsA2pGpaucB21yv-L36YZxVwu11NQ0"/>
+</div>
+</div>
+</nav>
+<!-- Side Navigation Bar -->
+<aside class="fixed left-0 top-0 h-screen w-20 hover:w-64 group transition-all duration-500 z-[90] bg-[#131313]/60 backdrop-blur-2xl border-r border-[#8ff5ff]/5 flex flex-col py-20 items-center overflow-hidden shadow-2xl shadow-black">
+<div class="flex flex-col gap-8 w-full">
+<div class="flex items-center px-6 w-full bg-gradient-to-r from-[#00F0FF]/20 to-transparent text-[#00F0FF] border-l-4 border-[#00F0FF] py-3 cursor-pointer">
+<span class="material-symbols-outlined min-w-[32px]">dashboard</span>
+<span class="ml-4 font-['Space_Grotesk'] font-medium text-xs uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">Command</span>
+</div>
+<div class="flex items-center px-6 w-full text-slate-500 hover:text-[#00F0FF] py-3 cursor-pointer hover:bg-white/5 transition-all">
+<span class="material-symbols-outlined min-w-[32px]">local_shipping</span>
+<span class="ml-4 font-['Space_Grotesk'] font-medium text-xs uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">Logistics</span>
+</div>
+<div class="flex items-center px-6 w-full text-slate-500 hover:text-[#00F0FF] py-3 cursor-pointer hover:bg-white/5 transition-all">
+<span class="material-symbols-outlined min-w-[32px]">explore</span>
+<span class="ml-4 font-['Space_Grotesk'] font-medium text-xs uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">Navigation</span>
+</div>
+<div class="flex items-center px-6 w-full text-slate-500 hover:text-[#00F0FF] py-3 cursor-pointer hover:bg-white/5 transition-all">
+<span class="material-symbols-outlined min-w-[32px]">warning</span>
+<span class="ml-4 font-['Space_Grotesk'] font-medium text-xs uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">Alerts</span>
+</div>
+<div class="flex items-center px-6 w-full text-slate-500 hover:text-[#00F0FF] py-3 cursor-pointer hover:bg-white/5 transition-all">
+<span class="material-symbols-outlined min-w-[32px]">query_stats</span>
+<span class="ml-4 font-['Space_Grotesk'] font-medium text-xs uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">Intelligence</span>
+</div>
+</div>
+<div class="mt-auto w-full pb-8">
+<button class="mx-4 hidden group-block group-hover:block bg-gradient-to-r from-primary to-primary-dim text-on-primary-fixed px-4 py-2 rounded-md font-bold text-[10px] tracking-widest uppercase transition-all hover:scale-105 active:scale-95">
+                DEPLOY ASSET
+            </button>
+</div>
+</aside>
+<main class="ml-20">
+<!-- Section 1: Hero -->
+<section class="relative h-screen flex flex-col items-center justify-center overflow-hidden">
+<div class="absolute inset-0 z-0">
+<div class="absolute inset-0 bg-gradient-to-b from-transparent via-surface/40 to-surface z-10"></div>
+<div class="w-full h-full flex items-center justify-center opacity-40">
+<div class="w-[800px] h-[800px] rounded-full border border-primary/20 absolute animate-[pulse_8s_infinite]"></div>
+<div class="w-[600px] h-[600px] rounded-full border border-primary/40 absolute animate-[pulse_6s_infinite]"></div>
+<img alt="3D Globe Visualization" class="w-full h-full object-cover scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuALcVEqnOsiYh8UYbY8OwpjunRWfbolX48geurLVD2ozOQkcjVQv0_sobK4z4PGTj38n2nw2SHAhs4MaOmDJZCtjQ1S0syHZ1GDh3H6SKsVPGg4Wh4BCax3gbdWB7nB7sQrdTfxKzGMZn1wuMTqpMyO2cmsltMOU8xRnLRTwHnlbc2noTDCuYjODNtfJt27uIG5OROV_XVpej2lTjV8q61rTm5L2TYyXroSeZDFOaHjy1MxOA4kRP4IG4bkTwBXBER9rZxai3d2W2I"/>
+</div>
+</div>
+<div class="relative z-20 text-center px-4">
+<div class="inline-block px-4 py-1 bg-primary/10 border border-primary/20 rounded-full mb-6">
+<span class="text-primary font-['Inter'] text-[10px] uppercase tracking-[0.3em]">Orbital Command Status: Active</span>
+</div>
+<h1 class="text-6xl md:text-8xl font-headline font-bold tracking-tighter text-white mb-8">
+                    GLOBAL MOBILITY <br/> <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">INTELLIGENCE</span>
+</h1>
+<p class="max-w-xl mx-auto text-slate-400 font-body text-lg mb-12">
+                    Advanced predictive analytics for multi-modal logistics across high-frequency global corridors. Total system autonomy engaged.
+                </p>
+<div class="flex gap-4 justify-center">
+<button class="bg-gradient-to-br from-primary to-primary-dim text-on-primary-fixed px-8 py-4 rounded-md font-bold uppercase tracking-widest hover:scale-105 transition-transform">Initiate Sequence</button>
+<button class="border border-outline-variant/30 text-white px-8 py-4 rounded-md font-bold uppercase tracking-widest hover:bg-white/5 transition-colors">Terminal Access</button>
+</div>
+</div>
+<div class="absolute bottom-12 animate-bounce">
+<span class="material-symbols-outlined text-primary text-3xl">expand_more</span>
+</div>
+</section>
+
+<!-- Section 2: Trip Timeline / Active Trajectory -->
+<section class="py-32 px-12 bg-surface-container-low">
+<div class="max-w-7xl mx-auto">
+<div class="flex justify-between items-end mb-16">
+<div>
+<h2 class="text-4xl font-headline font-bold text-white uppercase tracking-tighter">Active Trajectory</h2>
+          <!-- id: mission-label → populated from trip + route + location_node tables -->
+<p class="text-slate-500 font-label uppercase tracking-widest text-xs mt-2" id="mission-label">Loading mission data…</p>
+</div>
+<div class="text-right">
+          <!-- id: time-remaining → calculated from scheduled_arrival - actual_departure -->
+<span class="text-primary-fixed font-headline text-2xl font-bold" id="time-remaining">—</span>
+</div>
+</div>
+      <!-- id: trajectory-panel → fades in once data loads -->
+<div class="glass-panel p-12 rounded-xl border border-white/5 relative overflow-hidden" id="trajectory-panel">
+<div class="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-primary to-secondary opacity-50"></div>
+<div class="flex items-center gap-12 relative">
+<!-- Origin — nodeCode + nodeLabel from location_node -->
+<div class="flex-shrink-0 text-center">
+<div class="w-4 h-4 rounded-full bg-primary shadow-[0_0_10px_rgba(143,245,255,1)] mx-auto mb-4"></div>
+            <!-- id: origin-code → nodeCode(origin_node.name) -->
+<h3 class="font-headline text-xl font-bold" id="origin-code">—</h3>
+            <!-- id: origin-name → nodeLabel(origin_node.name) -->
+<p class="text-xs text-slate-500 uppercase tracking-widest" id="origin-name">Loading…</p>
+</div>
+<!-- Progress Track -->
+<div class="flex-grow h-[2px] bg-white/10 relative">
+          <!-- id: trip-progress → width% = tripProgress(trip) from trip.actual_departure + scheduled_arrival -->
+<div class="absolute left-0 top-0 h-full bg-primary" id="trip-progress" style="width:0%"></div>
+<div class="absolute top-1/2 -translate-y-1/2 -translate-x-1/2" id="plane-icon" style="left:0%">
+<span class="material-symbols-outlined text-primary rotate-90 text-3xl drop-shadow-[0_0_8px_rgba(143,245,255,0.8)]">flight</span>
+</div>
+<div class="absolute top-4 left-1/2 -translate-x-1/2 flex gap-2">
+            <!-- id: trip-status-badge → trip.trip_status (ON_TIME / DELAYED) -->
+<span class="px-2 py-0.5 text-[10px] font-bold rounded uppercase" id="trip-status-badge">—</span>
+            <!-- id: trip-speed → derived from distance_km / duration hours -->
+<span class="px-2 py-0.5 bg-primary/10 text-primary text-[10px] font-bold rounded uppercase" id="trip-speed">—</span>
+</div>
+</div>
+<!-- Destination -->
+<div class="flex-shrink-0 text-center">
+<div class="w-4 h-4 rounded-full border-2 border-slate-700 mx-auto mb-4"></div>
+            <!-- id: dest-code → nodeCode(destination_node.name) -->
+<h3 class="font-headline text-xl font-bold" id="dest-code">—</h3>
+            <!-- id: dest-name → nodeLabel(destination_node.name) -->
+<p class="text-xs text-slate-500 uppercase tracking-widest" id="dest-name">Loading…</p>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8 mt-16">
+<div class="p-4 bg-surface-container-lowest border border-white/5 rounded-lg">
+<p class="text-[10px] text-slate-500 uppercase tracking-widest mb-1">Departure</p>
+          <!-- id: stat-departure → actual_departure from trip table -->
+<p class="font-headline text-xl text-white" id="stat-departure">—</p>
+</div>
+<div class="p-4 bg-surface-container-lowest border border-white/5 rounded-lg">
+<p class="text-[10px] text-slate-500 uppercase tracking-widest mb-1">Estimated Arrival</p>
+          <!-- id: stat-arrival → scheduled_arrival from trip table -->
+<p class="font-headline text-xl text-white" id="stat-arrival">—</p>
+</div>
+<div class="p-4 bg-surface-container-lowest border border-white/5 rounded-lg">
+<p class="text-[10px] text-slate-500 uppercase tracking-widest mb-1">Carrier</p>
+          <!-- id: stat-carrier → carrier.name via vehicle → carrier FK -->
+<p class="font-headline text-xl text-primary" id="stat-carrier">—</p>
+</div>
+<div class="p-4 bg-surface-container-lowest border border-white/5 rounded-lg">
+<p class="text-[10px] text-slate-500 uppercase tracking-widest mb-1">Vehicle</p>
+          <!-- id: stat-vehicle → vehicle.model_name + reg_number -->
+<p class="font-headline text-xl text-secondary" id="stat-vehicle">—</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Section 3: Vehicle Fleet -->
+<section class="py-32 px-12 overflow-hidden">
+<div class="max-w-7xl mx-auto">
+<h2 class="text-display-lg font-headline font-bold text-white mb-20">ELITE FLEET</h2>
+<div class="asymmetric-grid">
+<!-- Aero Card — first AIRCRAFT from vehicle table -->
+<div class="col-span-12 md:col-span-4 group cursor-pointer">
+<div class="relative aspect-[3/4] rounded-xl overflow-hidden transition-all duration-700 group-hover:scale-[1.02]">
+<img alt="Supersonic Craft" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB8_f2p3XZEa7qMBqtcLc2rqDG7H7JKx1pcf2c-UQnFTJxOAxI0wAOzrFz-hDOixCzo9m0LEWEJWuyPosOuqp5w0Ib3Y8Cz087jyhyI_CIiwJxN-IJ3HNhd5nmwnkKQUIfIOPIgeDZVZrqZb82Myr4AfVIjAr1pC_4dRxfpLSbrIsFYwXXvEyKTPU3OxVyFljiDuV9-x0A5hDaVDkOw7znWxb8yjHJUFMuJ9qalFz7y15YU9skkkffgGXbndcKxnInVBV6IO7QFHn0"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-8 w-full">
+            <!-- id: fleet-air-label → vehicleTypeLabel(AIRCRAFT) + carrier.country_code -->
+<p class="text-primary font-bold text-xs tracking-widest uppercase mb-2" id="fleet-air-label">Aero-Stratosphere</p>
+            <!-- id: fleet-air-name → vehicle.model_name -->
+<h3 class="text-3xl font-headline font-bold text-white mb-4" id="fleet-air-name">AETHERIS X-1</h3>
+<div class="flex gap-4">
+              <!-- id: fleet-air-s1 → carrier.name -->
+<div class="text-[10px] font-label text-slate-400 border border-white/10 px-2 py-1 rounded" id="fleet-air-s1">CARRIER</div>
+              <!-- id: fleet-air-s2 → vehicle.reg_number -->
+<div class="text-[10px] font-label text-slate-400 border border-white/10 px-2 py-1 rounded" id="fleet-air-s2">REG</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Sea Card — first SHIP from vehicle table -->
+<div class="col-span-12 md:col-span-8 group cursor-pointer">
+<div class="relative aspect-[16/9] rounded-xl overflow-hidden transition-all duration-700 group-hover:scale-[1.02]">
+<img alt="Maritime Carrier" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCC08ErPKWhkmuRBUodOGie6I7is_gVO5X14UiOo5V3WGksHoSMm-NyDNHiREPUd4EfpZkwG2iMragdPJRlgSVr-taMGqbt7-3HJLuXoRmdlkYITmNbD-5DxTdySFbbziyhdg9sEtfdgux7Kr5LMHhaxNGMjq9YOR5qwEYdz8Cx54P3VZ2Qi4RRsfI2KEib_W9b1kxoIA0z8FMpp5yRFXkJBSshC4YdVP02qbB1TnbAIZWE3F_odGxyT7HU5AVsA2pGpaucB21yv-L36YZxVwu11NQ0"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-8 w-full">
+            <!-- id: fleet-sea-label → vehicleTypeLabel(SHIP) + carrier.country_code -->
+<p class="text-secondary font-bold text-xs tracking-widest uppercase mb-2" id="fleet-sea-label">Oceanic Logistics</p>
+            <!-- id: fleet-sea-name → vehicle.model_name -->
+<h3 class="text-4xl font-headline font-bold text-white mb-4" id="fleet-sea-name">NEPTUNE CLASS CARRIER</h3>
+<div class="flex gap-4">
+              <!-- id: fleet-sea-s1 → carrier.name -->
+<div class="text-[10px] font-label text-slate-400 border border-white/10 px-2 py-1 rounded" id="fleet-sea-s1">CARRIER</div>
+              <!-- id: fleet-sea-s2 → vehicle.reg_number -->
+<div class="text-[10px] font-label text-slate-400 border border-white/10 px-2 py-1 rounded" id="fleet-sea-s2">REG</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Section 4 & 5: Network & Route -->
+<section class="py-32 bg-surface-container">
+<div class="max-w-7xl mx-auto px-12 grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
+<div>
+<h2 class="text-5xl font-headline font-bold text-white mb-8 tracking-tighter uppercase">Global Neural Grid</h2>
+<p class="text-slate-400 mb-12 leading-relaxed">Our intelligence system maps over 1.2 million active mobility nodes in real-time. Utilizing Route Optimization Algorithm v4.2, we achieve a consistent efficiency rating across all international corridors.</p>
+<div class="space-y-6">
+<div class="flex items-center justify-between p-6 glass-panel rounded-lg border-l-4 border-primary">
+<div>
+<p class="text-xs text-slate-500 uppercase tracking-widest">Route Optimization</p>
+              <!-- id: route-efficiency → 100 - avg(congestion_level) across congestion_record table -->
+<p class="text-2xl font-headline font-bold text-white" id="route-efficiency">—</p>
+</div>
+<span class="material-symbols-outlined text-primary text-4xl">trending_up</span>
+</div>
+<div class="flex items-center justify-between p-6 glass-panel rounded-lg border-l-4 border-secondary">
+<div>
+<p class="text-xs text-slate-500 uppercase tracking-widest">Network Latency</p>
+              <!-- id: network-latency → derived from avg vehicle_count in congestion_record -->
+<p class="text-2xl font-headline font-bold text-white" id="network-latency">—</p>
+</div>
+<span class="material-symbols-outlined text-secondary text-4xl">bolt</span>
+</div>
+</div>
+</div>
+<div class="relative">
+<div class="absolute -inset-4 bg-primary/5 blur-3xl rounded-full"></div>
+<div class="relative aspect-square border border-white/10 rounded-full flex items-center justify-center">
+<div class="absolute w-[90%] h-[90%] border border-primary/20 rounded-full animate-[spin_20s_linear_infinite]"></div>
+<div class="absolute w-[70%] h-[70%] border border-secondary/20 rounded-full animate-[spin_15s_linear_infinite_reverse]"></div>
+<img alt="Network Map" class="w-full h-full object-cover rounded-full opacity-60 grayscale hover:grayscale-0 transition-all duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBwABLYu73Otq_PjJdqP-q_0tSLosIR5bXyeQwhxNvhMCwxDU5CLBz20Nrz_G5S0S24npQiVilLwUELmiEGKwBGaOzNT1VdiOBFF0pbJxN2r8NhJLMwuqfZmcCGlHWfmKb0KPzGT0Jx-IR72GENWGe9BvkV0Tm2oEdK1QqOFLP1XWwejQHYEd5eaFiTqPPCwl33jrgWf9iQhQnRjL_PH8KhqHLn_yTizj5AQsEhMGHXOxA9gGlpAuYEfUNfth_FxU0ovFkgrlceGrk"/>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Section 6 & 7: Location Nodes & Congestion Heatmap -->
+<section class="py-32 px-12 relative overflow-hidden">
+<div class="absolute top-1/4 -right-64 w-96 h-96 bg-primary/10 blur-[120px] rounded-full"></div>
+<div class="max-w-7xl mx-auto">
+<div class="mb-20">
+<h2 class="text-display-md font-headline font-bold text-white mb-4">NODE INTELLIGENCE</h2>
+<p class="text-slate-500 font-label tracking-widest uppercase text-xs">Real-time congestion analytics and heatmap projection</p>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<div class="lg:col-span-2 relative h-[500px] bg-surface-container-highest rounded-xl border border-white/5 overflow-hidden group">
+<img alt="Congestion Heatmap" class="w-full h-full object-cover opacity-50 transition-transform duration-1000 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCB6FbPN2HIwq0t-F-dZ_G4x9wqpyiz86dqVeohS6daB6-WSklJlEYtxPOzuaiVpLsn_1ywYSUDqi1va74fdRowndFU3vDqh_FSVpIOHf-dIXnrTvcX62ZN5XqNNJICRHEfOw6grI7AMFOPDXVSB8gbtQMwEBtDHVyuU4WTWUslKsOp-oyz_90J6CVtnPjrwXiAAIK87h4xxyc195MJXIspbWdKC3G-EuHwGFv9EjMmK5UR3PBXitOpkoik6OABCCDb3oPU74U7I64"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent"></div>
+<!-- Floating Markers -->
+<div class="absolute top-1/4 left-1/3 p-3 glass-panel rounded-lg border border-primary animate-pulse cursor-pointer">
+<span class="material-symbols-outlined text-primary">location_on</span>
+<div class="absolute top-0 left-full ml-2 w-32 glass-panel p-2 rounded text-[10px] hidden group-hover:block">
+<p class="font-bold">HEATHROW (LHR)</p>
+<p class="text-slate-400">Load: 88%</p>
+</div>
+</div>
+<div class="absolute bottom-1/3 right-1/4 p-3 glass-panel rounded-lg border border-error animate-pulse cursor-pointer">
+<span class="material-symbols-outlined text-error">warning</span>
+</div>
+</div>
+<div class="space-y-6">
+<div class="p-6 bg-surface-container-low rounded-lg border border-white/5">
+<h4 class="font-headline font-bold mb-4 uppercase text-sm tracking-widest">Velocity Metrics</h4>
+          <!-- id: velocity-bars → bars from congestion_record.congestion_level (6 most recent) -->
+<div class="flex items-end gap-2 h-32 relative" id="velocity-bars">
+            <!-- JS-generated bars; heights = congestion_level, colors by severity -->
+            <div class="w-full bg-primary/20 h-[60%] rounded-t-sm animate-pulse"></div>
+            <div class="w-full bg-primary/40 h-[85%] rounded-t-sm animate-pulse"></div>
+            <div class="w-full bg-primary/60 h-[45%] rounded-t-sm animate-pulse"></div>
+            <div class="w-full bg-primary   h-[95%] rounded-t-sm animate-pulse"></div>
+            <div class="w-full bg-primary/30 h-[70%] rounded-t-sm animate-pulse"></div>
+            <div class="w-full bg-primary/50 h-[40%] rounded-t-sm animate-pulse"></div>
+</div>
+</div>
+<div class="p-6 bg-surface-container-low rounded-lg border border-white/5">
+<div class="flex justify-between items-center mb-6">
+<h4 class="font-headline font-bold uppercase text-sm tracking-widest">System Load</h4>
+<span class="text-xs text-primary">Live</span>
+</div>
+<div class="relative w-full h-24 flex items-center justify-center">
+<svg class="w-full h-full overflow-visible">
+<path class="animate-[dash_5s_linear_infinite]" d="M0 50 Q 50 10 100 50 T 200 50 T 300 10 T 400 50" fill="none" stroke="#8ff5ff" stroke-width="2"></path>
+</svg>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Section 8: Delay Events & Alerts -->
+<section class="py-32 px-12 bg-surface-container-lowest">
+<div class="max-w-7xl mx-auto">
+<div class="flex items-center gap-4 mb-16">
+<span class="w-12 h-[1px] bg-error"></span>
+<h2 class="text-3xl font-headline font-bold text-white uppercase tracking-tighter">Critical Alerts</h2>
+</div>
+      <!-- id: alerts-container → fully generated from delay_event JOIN location_node JOIN trip tables -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="alerts-container">
+        <!-- Loading skeletons -->
+        <div class="p-6 bg-surface-container-high border-l-4 border-white/10 rounded-r-lg animate-pulse">
+          <div class="h-8 w-8 bg-white/10 rounded mb-6"></div>
+          <div class="h-5 bg-white/10 rounded mb-3 w-3/4"></div>
+          <div class="h-3 bg-white/5 rounded mb-2"></div>
+          <div class="h-3 bg-white/5 rounded w-2/3"></div>
+        </div>
+        <div class="p-6 bg-surface-container-high border-l-4 border-white/10 rounded-r-lg animate-pulse">
+          <div class="h-8 w-8 bg-white/10 rounded mb-6"></div>
+          <div class="h-5 bg-white/10 rounded mb-3 w-3/4"></div>
+          <div class="h-3 bg-white/5 rounded mb-2"></div>
+          <div class="h-3 bg-white/5 rounded w-2/3"></div>
+        </div>
+        <div class="p-6 bg-surface-container-high border-l-4 border-white/10 rounded-r-lg animate-pulse">
+          <div class="h-8 w-8 bg-white/10 rounded mb-6"></div>
+          <div class="h-5 bg-white/10 rounded mb-3 w-3/4"></div>
+          <div class="h-3 bg-white/5 rounded mb-2"></div>
+          <div class="h-3 bg-white/5 rounded w-2/3"></div>
+        </div>
+</div>
+</div>
+</section>
+
+<!-- Section 9 & 10: Live Tracking & Bottleneck Analytics -->
+<section class="py-32 px-12 bg-surface">
+<div class="max-w-7xl mx-auto">
+<div class="asymmetric-grid">
+<div class="col-span-12 lg:col-span-7 h-[600px] bg-surface-container-low border border-white/5 rounded-2xl overflow-hidden relative">
+<div class="absolute top-6 left-6 z-10 bg-surface/80 backdrop-blur px-4 py-2 rounded-full border border-primary/20 flex items-center gap-2">
+          <!-- id: live-dot → pulsing dot -->
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse" id="live-dot"></span>
+          <!-- id: live-asset-count → count of unique trip_ids in position_log, animated -->
+<span class="text-[10px] font-bold text-white uppercase tracking-widest">Live Tracking: <span id="live-asset-count">—</span></span>
+</div>
+<img alt="Position Log Map" class="w-full h-full object-cover grayscale opacity-40" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDyXq3Veslgx0GPTDQT_KU-C7XJRA9gnk1MzxnITTXb3HLBRZMWiEOJyVJ7qDAFjkCn-xjvGD5FvfPgcoYrKMZWkSKdbejqSnITmNbD-5DxTdySFbbziyhdg9sEtfdgux7Kr5LMHhaxNGMjq9YOR5qwEYdz8Cx54P3VZ2Qi4RRsfI2KEib_W9b1kxoIA0z8FMpp5yRFXkJBSshC4YdVP02qbB1TnbAIZWE3F_odGxyT7HU5AVsA2pGpaucB21yv-L36YZxVwu11NQ0"/>
+<!-- Grid Overlay -->
+<div class="absolute inset-0 pointer-events-none opacity-20" style="background-image: radial-gradient(circle, #8ff5ff 1px, transparent 1px); background-size: 40px 40px;"></div>
+</div>
+<div class="col-span-12 lg:col-span-5 flex flex-col justify-center gap-8">
+<div>
+<h2 class="text-4xl font-headline font-bold text-white mb-6 uppercase tracking-tighter">Bottleneck Analytics</h2>
+<p class="text-slate-400">Our advanced visualization engine identifies structural inefficiencies before they manifest as delays. Using ML-driven forecasting, we maintain a persistent velocity threshold.</p>
+</div>
+<div class="space-y-4">
+<!-- Port Saturation → max(severity_score) from bottleneck_report table -->
+<div>
+<div class="flex justify-between text-xs font-bold uppercase tracking-widest mb-2">
+<span>Port Saturation</span>
+              <!-- id: port-sat-pct → max bottleneck severity_score -->
+<span class="text-error" id="port-sat-pct">—</span>
+</div>
+<div class="w-full h-1 bg-white/5 rounded-full overflow-hidden">
+              <!-- id: port-sat-bar → width driven by severity_score -->
+<div class="h-full bg-error" id="port-sat-bar" style="width:0%"></div>
+</div>
+</div>
+<!-- Transit Throughput → 100 - avg(congestion_level) from congestion_record table -->
+<div>
+<div class="flex justify-between text-xs font-bold uppercase tracking-widest mb-2">
+<span>Transit Throughput</span>
+              <!-- id: transit-pct → 100 - avg congestion_level -->
+<span class="text-primary" id="transit-pct">—</span>
+</div>
+<div class="w-full h-1 bg-white/5 rounded-full overflow-hidden">
+              <!-- id: transit-bar → width driven by inverse congestion -->
+<div class="h-full bg-primary" id="transit-bar" style="width:0%"></div>
+</div>
+</div>
+<!-- Asset Utilization → ON_TIME / total trips from trip table -->
+<div>
+<div class="flex justify-between text-xs font-bold uppercase tracking-widest mb-2">
+<span>Asset Utilization</span>
+              <!-- id: asset-util-pct → ON_TIME trips / total trips * 100 -->
+<span class="text-secondary" id="asset-util-pct">—</span>
+</div>
+<div class="w-full h-1 bg-white/5 rounded-full overflow-hidden">
+              <!-- id: asset-util-bar → width driven by utilization % -->
+<div class="h-full bg-secondary" id="asset-util-bar" style="width:0%"></div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="p-4 bg-surface-container rounded-lg border border-white/5">
+<p class="text-[10px] text-slate-500 uppercase tracking-widest mb-1">Impact Rating</p>
+          <!-- id: impact-rating → LOW / MEDIUM / HIGH from bottleneck severity -->
+<p class="text-2xl font-headline font-bold text-white" id="impact-rating">—</p>
+</div>
+<div class="p-4 bg-surface-container rounded-lg border border-white/5">
+<p class="text-[10px] text-slate-500 uppercase tracking-widest mb-1">System Trust</p>
+          <!-- id: system-trust → ON_TIME% from trip table -->
+<p class="text-2xl font-headline font-bold text-primary" id="system-trust">—</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-[#0e0e0e] w-full py-12 border-t border-white/5 mt-32">
+<div class="max-w-7xl mx-auto px-12 flex flex-col md:flex-row justify-between items-center gap-8">
+<div class="text-[#00F0FF] font-bold font-['Inter'] text-[10px] tracking-widest uppercase">
+                ORBITAL MOBILITY INTELLIGENCE
+            </div>
+<div class="flex flex-wrap justify-center gap-8 font-['Inter'] text-[10px] tracking-widest uppercase text-slate-500">
+<a class="hover:text-[#00F0FF] transition-colors duration-300" href="#">Privacy Protocol</a>
+<a class="hover:text-[#00F0FF] transition-colors duration-300" href="#">Security Schema</a>
+<a class="hover:text-[#00F0FF] transition-colors duration-300" href="#">API Docs</a>
+<a class="hover:text-[#00F0FF] transition-colors duration-300" href="#">System Status</a>
+</div>
+<div class="font-['Inter'] text-[10px] tracking-widest uppercase text-slate-600">
+                © 2026 ORBITAL MOBILITY INTELLIGENCE. ALL SYSTEMS OPERATIONAL.
+            </div>
+</div>
+</footer>
+<div class="grain-overlay fixed inset-0 z-[1000] pointer-events-none"></div>
+
+<!-- ── JS Modules ─────────────────────────────────────────────────────────── -->
+<script src="js/api.js"></script>
+<script src="js/render.js"></script>
+<script src="js/main.js"></script>
+</body></html>
