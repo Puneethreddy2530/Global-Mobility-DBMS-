@@ -96,7 +96,7 @@ body {
     border: 1px solid rgba(143, 245, 255, 0.1)
     }
 .grain-overlay {
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     opacity: 0.15;
     pointer-events: none
     }
@@ -126,7 +126,7 @@ body {
 <span class="hidden material-symbols-outlined text-[#00F0FF] cursor-pointer hover:bg-[#8ff5ff]/5 p-2 rounded-full transition-all">notifications</span>
 <span class="hidden material-symbols-outlined text-[#00F0FF] cursor-pointer hover:bg-[#8ff5ff]/5 p-2 rounded-full transition-all">settings</span>
 <div class="w-8 h-8 rounded-full border border-primary/30 overflow-hidden">
-<img alt="User Intelligence Profile" class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1522878129833-838a904a0e9e?w=120"/>
+<img alt="User Intelligence Profile" class="w-full h-full object-cover" src="https://ui-avatars.com/api/?name=GM&background=005d63&color=8ff5ff&size=64"/>
 </div>
 </div>
 </nav>
@@ -168,7 +168,7 @@ body {
 <div class="w-full h-full flex items-center justify-center opacity-40">
 <div class="w-[800px] h-[800px] rounded-full border border-primary/20 absolute animate-[pulse_8s_infinite]"></div>
 <div class="w-[600px] h-[600px] rounded-full border border-primary/40 absolute animate-[pulse_6s_infinite]"></div>
-<img alt="3D Globe Visualization" class="w-full h-full object-cover scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuALcVEqnOsiYh8UYbY8OwpjunRWfbolX48geurLVD2ozOQkcjVQv0_sobK4z4PGTj38n2nw2SHAhs4MaOmDJZCtjQ1S0syHZ1GDh3H6SKsVPGg4Wh4BCax3gbdWB7nB7sQrdTfxKzGMZn1wuMTqpMyO2cmsltMOU8xRnLRTwHnlbc2noTDCuYjODNtfJt27uIG5OROV_XVpej2lTjV8q61rTm5L2TYyXroSeZDFOaHjy1MxOA4kRP4IG4bkTwBXBER9rZxai3d2W2I"/>
+<img alt="3D Globe Visualization" class="w-full h-full object-cover scale-110" src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200&q=80"/>
 </div>
 </div>
 <div class="relative z-20 text-center px-4">
@@ -181,7 +181,7 @@ body {
 <p class="max-w-xl mx-auto text-slate-400 font-body text-lg mb-12">
                     Advanced predictive analytics for multi-modal logistics across high-frequency global corridors. Total system autonomy engaged.
                 </p>
-<div class="hidden gap-4 justify-center">
+<div class="flex gap-4 justify-center">
 <button class="bg-gradient-to-br from-primary to-primary-dim text-on-primary-fixed px-8 py-4 rounded-md font-bold uppercase tracking-widest hover:scale-105 transition-transform">Initiate Sequence</button>
 <button class="border border-outline-variant/30 text-white px-8 py-4 rounded-md font-bold uppercase tracking-widest hover:bg-white/5 transition-colors">Terminal Access</button>
 </div>
@@ -274,7 +274,7 @@ body {
 <!-- Aero Card — first AIRCRAFT from vehicle table -->
 <div class="col-span-12 md:col-span-4 group cursor-pointer">
 <div class="relative aspect-[3/4] rounded-xl overflow-hidden transition-all duration-700 group-hover:scale-[1.02]">
-<img alt="Supersonic Craft" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB8_f2p3XZEa7qMBqtcLc2rqDG7H7JKx1pcf2c-UQnFTJxOAxI0wAOzrFz-hDOixCzo9m0LEWEJWuyPosOuqp5w0Ib3Y8Cz087jyhyI_CIiwJxN-IJ3HNhd5nmwnkKQUIfIOPIgeDZVZrqZb82Myr4AfVIjAr1pC_4dRxfpLSbrIsFYwXXvEyKTPU3OxVyFljiDuV9-x0A5hDaVDkOw7znWxb8yjHJUFMuJ9qalFz7y15YU9skkkffgGXbndcKxnInVBV6IO7QFHn0"/>
+<img alt="Supersonic Craft" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800&q=80"/>
 <div class="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent"></div>
 <div class="absolute bottom-0 left-0 p-8 w-full">
             <!-- id: fleet-air-label → vehicleTypeLabel(AIRCRAFT) + carrier.country_code -->
@@ -293,7 +293,7 @@ body {
 <!-- Sea Card — first SHIP from vehicle table -->
 <div class="col-span-12 md:col-span-8 group cursor-pointer">
 <div class="relative aspect-[16/9] rounded-xl overflow-hidden transition-all duration-700 group-hover:scale-[1.02]">
-<img alt="Maritime Carrier" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCC08ErPKWhkmuRBUodOGie6I7is_gVO5X14UiOo5V3WGksHoSMm-NyDNHiREPUd4EfpZkwG2iMragdPJRlgSVr-taMGqbt7-3HJLuXoRmdlkYITmNbD-5DxTdySFbbziyhdg9sEtfdgux7Kr5LMHhaxNGMjq9YOR5qwEYdz8Cx54P3VZ2Qi4RRsfI2KEib_W9b1kxoIA0z8FMpp5yRFXkJBSshC4YdVP02qbB1TnbAIZWE3F_odGxyT7HU5AVsA2pGpaucB21yv-L36YZxVwu11NQ0"/>
+<img alt="Maritime Carrier" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://images.unsplash.com/photo-1578894381163-e72c17f2d45f?w=1200&q=80"/>
 <div class="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent"></div>
 <div class="absolute bottom-0 left-0 p-8 w-full">
             <!-- id: fleet-sea-label → vehicleTypeLabel(SHIP) + carrier.country_code -->
@@ -318,7 +318,12 @@ body {
 <div class="max-w-7xl mx-auto px-12 grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
 <div>
 <h2 class="text-5xl font-headline font-bold text-white mb-8 tracking-tighter uppercase">Global Neural Grid</h2>
-<p class="text-slate-400 mb-12 leading-relaxed">Our intelligence system maps over 1.2 million active mobility nodes in real-time. Utilizing Route Optimization Algorithm v4.2, we achieve a consistent efficiency rating across all international corridors.</p>
+<p class="text-slate-400 mb-12 leading-relaxed">
+Real-time monitoring across
+<span id="total-routes" class="text-primary font-bold">—</span> active routes,
+<span id="total-vehicles" class="text-primary font-bold">—</span> vehicles, and
+<span id="total-nodes" class="text-primary font-bold">—</span> location nodes.
+</p>
 <div class="space-y-6">
 <div class="flex items-center justify-between p-6 glass-panel rounded-lg border-l-4 border-primary">
 <div>
@@ -343,7 +348,7 @@ body {
 <div class="relative aspect-square border border-white/10 rounded-full flex items-center justify-center">
 <div class="absolute w-[90%] h-[90%] border border-primary/20 rounded-full animate-[spin_20s_linear_infinite]"></div>
 <div class="absolute w-[70%] h-[70%] border border-secondary/20 rounded-full animate-[spin_15s_linear_infinite_reverse]"></div>
-<img alt="Network Map" class="w-full h-full object-cover rounded-full opacity-60 grayscale hover:grayscale-0 transition-all duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBwABLYu73Otq_PjJdqP-q_0tSLosIR5bXyeQwhxNvhMCwxDU5CLBz20Nrz_G5S0S24npQiVilLwUELmiEGKwBGaOzNT1VdiOBFF0pbJxN2r8NhJLMwuqfZmcCGlHWfmKb0KPzGT0Jx-IR72GENWGe9BvkV0Tm2oEdK1QqOFLP1XWwejQHYEd5eaFiTqPPCwl33jrgWf9iQhQnRjL_PH8KhqHLn_yTizj5AQsEhMGHXOxA9gGlpAuYEfUNfth_FxU0ovFkgrlceGrk"/>
+<img alt="Network Map" class="w-full h-full object-cover rounded-full opacity-60 grayscale hover:grayscale-0 transition-all duration-700" src="https://images.unsplash.com/photo-1614728894747-a83421e2b9c9?w=800&q=80"/>
 </div>
 </div>
 </div>
@@ -359,7 +364,7 @@ body {
 </div>
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
 <div class="lg:col-span-2 relative h-[500px] bg-surface-container-highest rounded-xl border border-white/5 overflow-hidden group">
-<img alt="Congestion Heatmap" class="w-full h-full object-cover opacity-50 transition-transform duration-1000 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCB6FbPN2HIwq0t-F-dZ_G4x9wqpyiz86dqVeohS6daB6-WSklJlEYtxPOzuaiVpLsn_1ywYSUDqi1va74fdRowndFU3vDqh_FSVpIOHf-dIXnrTvcX62ZN5XqNNJICRHEfOw6grI7AMFOPDXVSB8gbtQMwEBtDHVyuU4WTWUslKsOp-oyz_90J6CVtnPjrwXiAAIK87h4xxyc195MJXIspbWdKC3G-EuHwGFv9EjMmK5UR3PBXitOpkoik6OABCCDb3oPU74U7I64"/>
+<img alt="Congestion Heatmap" class="w-full h-full object-cover opacity-50 transition-transform duration-1000 group-hover:scale-105" src="https://images.unsplash.com/photo-1524661135-423995f22d0b?w=1200&q=80"/>
 <div class="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent"></div>
 <!-- Floating Markers -->
 <div class="absolute top-1/4 left-1/3 p-3 glass-panel rounded-lg border border-primary animate-pulse cursor-pointer">
@@ -446,7 +451,7 @@ body {
           <!-- id: live-asset-count → count of unique trip_ids in position_log, animated -->
 <span class="text-[10px] font-bold text-white uppercase tracking-widest">Live Tracking: <span id="live-asset-count">—</span></span>
 </div>
-<img alt="Position Log Map" class="w-full h-full object-cover grayscale opacity-40" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDyXq3Veslgx0GPTDQT_KU-C7XJRA9gnk1MzxnITTXb3HLBRZMWiEOJyVJ7qDAFjkCn-xjvGD5FvfPgcoYrKMZWkSKdbejqSnITmNbD-5DxTdySFbbziyhdg9sEtfdgux7Kr5LMHhaxNGMjq9YOR5qwEYdz8Cx54P3VZ2Qi4RRsfI2KEib_W9b1kxoIA0z8FMpp5yRFXkJBSshC4YdVP02qbB1TnbAIZWE3F_odGxyT7HU5AVsA2pGpaucB21yv-L36YZxVwu11NQ0"/>
+<img alt="Position Log Map" class="w-full h-full object-cover grayscale opacity-40" src="https://images.unsplash.com/photo-1522878129833-838a904a0e9e?w=1200&q=80"/>
 <!-- Grid Overlay -->
 <div class="absolute inset-0 pointer-events-none opacity-20" style="background-image: radial-gradient(circle, #8ff5ff 1px, transparent 1px); background-size: 40px 40px;"></div>
 </div>
@@ -510,46 +515,7 @@ body {
 </div>
 </section>
 
-<!-- Section 10: Registration & Transactions (Added from requirements) -->
-<section class="py-20 px-12 bg-surface-container-low border-t border-white/5">
-    <div class="max-w-7xl mx-auto flex flex-col md:flex-row gap-8">
-        
-        <!-- User Registration Form -->
-        <div id="user-registration" class="glass-panel p-8 rounded-xl border border-primary/20 flex-1">
-            <div class="flex items-center gap-3 mb-6">
-                <span class="material-symbols-outlined text-primary">person_add</span>
-                <h2 class="text-2xl font-headline font-bold text-white uppercase tracking-tighter">Register User</h2>
-            </div>
-            <form id="addUserForm" class="flex flex-col gap-4">
-                <input type="text" id="username" placeholder="Username" class="bg-surface/50 border border-white/10 p-3 text-white rounded font-body focus:border-primary focus:outline-none transition-colors" required>
-                <input type="email" id="email" placeholder="Email Address" class="bg-surface/50 border border-white/10 p-3 text-white rounded font-body focus:border-primary focus:outline-none transition-colors" required>
-                <button type="submit" class="mt-4 bg-gradient-to-r from-primary to-primary-dim text-on-primary-fixed font-bold py-3 px-4 rounded uppercase tracking-widest hover:scale-[1.02] active:scale-[0.98] transition-transform">Provision User</button>
-            </form>
-        </div>
 
-        <!-- Transaction Execution Form -->
-        <div id="transaction-execution" class="glass-panel p-8 rounded-xl border border-secondary/20 flex-1">
-            <div class="flex items-center gap-3 mb-6">
-                <span class="material-symbols-outlined text-secondary">payments</span>
-                <h2 class="text-2xl font-headline font-bold text-white uppercase tracking-tighter">Execute Transaction</h2>
-            </div>
-            <form id="addTransactionForm" class="flex flex-col gap-4">
-                <input type="number" id="txn_user_id" placeholder="User ID" class="bg-surface/50 border border-white/10 p-3 text-white rounded font-body focus:border-secondary focus:outline-none transition-colors" required>
-                <div class="flex gap-4">
-                    <input type="number" step="0.01" id="txn_amount" placeholder="Amount (e.g. 1500.00)" class="w-1/2 bg-surface/50 border border-white/10 p-3 text-white rounded font-body focus:border-secondary focus:outline-none transition-colors" required>
-                    <select id="txn_type" class="w-1/2 bg-surface/50 border border-white/10 p-3 text-white rounded font-body focus:border-secondary focus:outline-none transition-colors" required>
-                        <option value="TICKET_PURCHASE">Ticket Purchase</option>
-                        <option value="FREIGHT_PAYMENT">Freight Payment</option>
-                        <option value="SUBSCRIPTION">Network Subscription</option>
-                        <option value="REFUND">Refund</option>
-                    </select>
-                </div>
-                <button type="submit" class="mt-4 bg-gradient-to-r from-secondary to-secondary-dim text-on-secondary-fixed font-bold py-3 px-4 rounded uppercase tracking-widest hover:scale-[1.02] active:scale-[0.98] transition-transform">Process Transaction</button>
-            </form>
-        </div>
-        
-    </div>
-</section>
 
 </main>
 <!-- Footer -->
@@ -572,7 +538,5 @@ body {
 <div class="grain-overlay fixed inset-0 z-[1000] pointer-events-none"></div>
 
 <!-- ── JS Modules ─────────────────────────────────────────────────────────── -->
-<script src="js/api.js"></script>
-<script src="js/render.js"></script>
-<script src="js/main.js"></script>
+<script type="module" src="js/main.js"></script>
 </body></html>

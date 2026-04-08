@@ -1,204 +1,172 @@
-"""
-main.py — FastAPI backend for Orbital Command dashboard.
-
-Endpoints (all return JSON consumed by js/api.js):
-  GET /trips        → trip JOIN vehicle JOIN carrier JOIN route JOIN location_node
-  GET /vehicles     → vehicle JOIN carrier
-  GET /delays       → delay_event JOIN location_node JOIN trip
-  GET /congestion   → congestion_record JOIN traffic_segment
-  GET /bottlenecks  → bottleneck_report JOIN traffic_segment
-  GET /positions    → position_log
-
-Run:
-  uvicorn main:app --reload --port 8000
-"""
-
-from fastapi import FastAPI, Depends, Query, APIRouter
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from sqlalchemy.orm import Session, joinedload
-from sqlalchemy import func
-from typing import List, Optional
+from fastapi.routing import APIRouter
+import psycopg2
+import psycopg2.extras
+import os
 
-from database import get_db
-from models import (
-    Trip, Vehicle, Carrier, Route, LocationNode,
-    TrafficSegment, CongestionRecord, DelayEvent,
-    BottleneckReport, PositionLog
-)
-from schemas import (
-    TripOut, VehicleOut, DelayOut, CongestionOut,
-    BottleneckOut, PositionOut
-)
-from datetime import datetime
+app = FastAPI(title="Global Mobility API")
 
-app = FastAPI(
-    title="Orbital Command API",
-    description="Global Mobility Intelligence — globalmobility PostgreSQL backend",
-    version="1.0.0"
-)
-
-# ── CORS — allow the frontend (any localhost origin) ──────────────────────────
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],          # tighten in production
+    allow_origins=["*"],
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
+DB_URL = os.getenv("DATABASE_URL", "postgresql://postgres:password@localhost:5432/globalmobility")
 
-# ── Router ────────────────────────────────────────────────────────────────────
+def get_conn():
+    return psycopg2.connect(DB_URL, cursor_factory=psycopg2.extras.RealDictCursor)
+
 router = APIRouter(prefix="/api")
 
-# ── Health ────────────────────────────────────────────────────────────────────
-@app.get("/", tags=["health"])
-def root():
-    return {"status": "operational", "service": "Orbital Command API"}
+@router.get("/trips")
+def get_trips():
+    conn = get_conn()
+    cur = conn.cursor()
+    cur.execute("""
+        SELECT
+            t.trip_id, t.trip_status,
+            t.scheduled_departure, t.scheduled_arrival,
+            t.actual_departure, t.actual_arrival,
+            r.distance_km, r.route_type,
+            o.name AS origin_name, o.country AS origin_country,
+            d.name AS dest_name, d.country AS dest_country,
+            v.model_name, v.reg_number, v.vehicle_type,
+            c.name AS carrier_name, c.country_code
+        FROM trip t
+        JOIN route r ON t.route_id = r.route_id
+        JOIN location_node o ON r.origin_node_id = o.node_id
+        JOIN location_node d ON r.destination_node_id = d.node_id
+        JOIN vehicle v ON t.vehicle_id = v.vehicle_id
+        JOIN carrier c ON v.carrier_id = c.carrier_id
+        ORDER BY t.actual_departure DESC NULLS LAST
+    """)
+    rows = cur.fetchall()
+    cur.close(); conn.close()
+    return [dict(r) for r in rows]
 
-# ── GET /trips ────────────────────────────────────────────────────────────────
-@router.get("/trips", response_model=List[TripOut], tags=["trips"])
-def get_trips(
-    status: Optional[str] = Query(None, description="Filter by trip_status"),
-    limit:  int           = Query(50,   ge=1, le=500),
-    db: Session = Depends(get_db)
-):
-    """
-    Returns trips enriched with vehicle → carrier and
-    route → origin_node / destination_node.
-    Ordered by scheduled_departure DESC (most recent first).
-    """
-    q = (
-        db.query(Trip)
-        .options(
-            joinedload(Trip.vehicle).joinedload(Vehicle.carrier),
-            joinedload(Trip.route)
-                .joinedload(Route.origin_node),
-            joinedload(Trip.route)
-                .joinedload(Route.destination_node),
-        )
-        .order_by(Trip.scheduled_departure.desc())
-    )
-    if status:
-        q = q.filter(Trip.trip_status == status.upper())
-    return q.limit(limit).all()
+@router.get("/vehicles")
+def get_vehicles():
+    conn = get_conn()
+    cur = conn.cursor()
+    cur.execute("""
+        SELECT v.vehicle_id, v.vehicle_type, v.reg_number, v.model_name,
+               c.name AS carrier_name, c.country_code, c.carrier_type
+        FROM vehicle v
+        JOIN carrier c ON v.carrier_id = c.carrier_id
+        ORDER BY v.vehicle_type, v.vehicle_id
+    """)
+    rows = cur.fetchall()
+    cur.close(); conn.close()
+    return [dict(r) for r in rows]
 
+@router.get("/congestion")
+def get_congestion():
+    conn = get_conn()
+    cur = conn.cursor()
+    cur.execute("""
+        SELECT cr.congestion_id, cr.congestion_level, cr.avg_speed,
+               cr.vehicle_count, cr.timestamp,
+               ts.segment_name, ts.region, ts.segment_type
+        FROM congestion_record cr
+        JOIN traffic_segment ts ON cr.segment_id = ts.segment_id
+        ORDER BY cr.timestamp DESC
+        LIMIT 6
+    """)
+    rows = cur.fetchall()
+    cur.close(); conn.close()
+    return [dict(r) for r in rows]
 
-# ── GET /vehicles ─────────────────────────────────────────────────────────────
-@router.get("/vehicles", response_model=List[VehicleOut], tags=["vehicles"])
-def get_vehicles(
-    vehicle_type: Optional[str] = Query(None, description="AIRCRAFT | TRAIN | SHIP"),
-    db: Session = Depends(get_db)
-):
-    """
-    Returns all vehicles with their carrier.
-    Optionally filtered by vehicle_type.
-    """
-    q = (
-        db.query(Vehicle)
-        .options(joinedload(Vehicle.carrier))
-        .order_by(Vehicle.vehicle_id)
-    )
-    if vehicle_type:
-        q = q.filter(Vehicle.vehicle_type == vehicle_type.upper())
-    return q.all()
+@router.get("/delays")
+def get_delays():
+    conn = get_conn()
+    cur = conn.cursor()
+    cur.execute("""
+        SELECT de.delay_id, de.delay_minutes, de.delay_reason, de.event_time,
+               de.trip_id,
+               ln.name AS node_name, ln.country AS node_country,
+               t.trip_status
+        FROM delay_event de
+        JOIN location_node ln ON de.node_id = ln.node_id
+        JOIN trip t ON de.trip_id = t.trip_id
+        ORDER BY de.event_time DESC
+    """)
+    rows = cur.fetchall()
+    cur.close(); conn.close()
+    return [dict(r) for r in rows]
 
+@router.get("/bottleneck")
+def get_bottleneck():
+    conn = get_conn()
+    cur = conn.cursor()
+    cur.execute("""
+        SELECT br.report_id, br.severity_score, br.start_time, br.end_time,
+               ts.segment_name, ts.region, ts.segment_type
+        FROM bottleneck_report br
+        JOIN traffic_segment ts ON br.segment_id = ts.segment_id
+        ORDER BY br.severity_score DESC
+    """)
+    rows = cur.fetchall()
+    cur.close(); conn.close()
+    return [dict(r) for r in rows]
 
-# ── GET /delays ───────────────────────────────────────────────────────────────
-@router.get("/delays", response_model=List[DelayOut], tags=["delays"])
-def get_delays(
-    reason: Optional[str] = Query(None, description="WEATHER | TRAFFIC | MAINTENANCE | CONTROL | UNKNOWN"),
-    limit:  int           = Query(50, ge=1, le=500),
-    db: Session = Depends(get_db)
-):
-    """
-    Returns delay events enriched with location_node and trip status.
-    Ordered by event_time DESC.
-    """
-    q = (
-        db.query(DelayEvent)
-        .options(
-            joinedload(DelayEvent.node),
-            joinedload(DelayEvent.trip),
-        )
-        .order_by(DelayEvent.event_time.desc())
-    )
-    if reason:
-        q = q.filter(DelayEvent.delay_reason == reason.upper())
-    return q.limit(limit).all()
+@router.get("/position")
+def get_position():
+    conn = get_conn()
+    cur = conn.cursor()
+    cur.execute("SELECT COUNT(DISTINCT trip_id) AS active_assets FROM position_log")
+    row = cur.fetchone()
+    cur.close(); conn.close()
+    return {"active_assets": row["active_assets"] if row else 0}
 
+@router.get("/stats")
+def get_stats():
+    conn = get_conn()
+    cur = conn.cursor()
 
-# ── GET /congestion ───────────────────────────────────────────────────────────
-@router.get("/congestion", response_model=List[CongestionOut], tags=["congestion"])
-def get_congestion(
-    min_level: Optional[int] = Query(None, ge=0, le=100, description="Min congestion_level"),
-    limit:     int           = Query(50, ge=1, le=500),
-    db: Session = Depends(get_db)
-):
-    """
-    Returns congestion records enriched with traffic_segment.
-    Ordered by timestamp DESC (most recent first).
-    """
-    q = (
-        db.query(CongestionRecord)
-        .options(joinedload(CongestionRecord.segment))
-        .order_by(CongestionRecord.timestamp.desc())
-    )
-    if min_level is not None:
-        q = q.filter(CongestionRecord.congestion_level >= min_level)
-    return q.limit(limit).all()
+    cur.execute("SELECT AVG(congestion_level) AS avg_congestion, AVG(vehicle_count) AS avg_vehicle_count FROM congestion_record")
+    cong = cur.fetchone()
 
+    cur.execute("""
+        SELECT
+            COUNT(*) FILTER (WHERE trip_status = 'ON_TIME') AS on_time,
+            COUNT(*) AS total
+        FROM trip
+    """)
+    trips = cur.fetchone()
 
-# ── GET /bottlenecks ──────────────────────────────────────────────────────────
-@router.get("/bottleneck", response_model=List[BottleneckOut], tags=["bottlenecks"])
-def get_bottlenecks(
-    min_severity: Optional[float] = Query(None, description="Min severity_score"),
-    db: Session = Depends(get_db)
-):
-    """
-    Returns all bottleneck reports enriched with traffic_segment.
-    Ordered by severity_score DESC.
-    """
-    q = (
-        db.query(BottleneckReport)
-        .options(joinedload(BottleneckReport.segment))
-        .order_by(BottleneckReport.severity_score.desc())
-    )
-    if min_severity is not None:
-        q = q.filter(BottleneckReport.severity_score >= min_severity)
-    return q.all()
+    cur.execute("SELECT MAX(severity_score) AS max_severity FROM bottleneck_report")
+    sev = cur.fetchone()
 
+    cur.execute("SELECT COUNT(*) AS total_routes FROM route")
+    routes = cur.fetchone()
 
-# ── GET /position ────────────────────────────────────────────────────────────
-@router.get("/position", tags=["positions"])
-def get_position_count(db: Session = Depends(get_db)):
-    """Returns count of distinct trip_ids in position_log."""
-    count = db.query(func.count(func.distinct(PositionLog.trip_id))).scalar()
-    return {"live_asset_count": count or 0}
+    cur.execute("SELECT COUNT(*) AS total_vehicles FROM vehicle")
+    vehicles = cur.fetchone()
 
-# ── GET /stats ────────────────────────────────────────────────────────────
-@router.get("/stats", tags=["stats"])
-def get_stats(db: Session = Depends(get_db)):
-    """Aggregate statistics for the dashboard."""
-    # 1. avg(congestion_level)
-    avg_congestion = db.query(func.avg(CongestionRecord.congestion_level)).scalar() or 0
+    cur.execute("SELECT COUNT(*) AS total_nodes FROM location_node")
+    nodes = cur.fetchone()
 
-    # 2. count(trip) ON_TIME / total
-    total_trips = db.query(func.count(Trip.trip_id)).scalar() or 1
-    on_time_trips = db.query(func.count(Trip.trip_id)).filter(Trip.trip_status == 'ON_TIME').scalar() or 0
-    on_time_pct = (on_time_trips / total_trips) * 100
+    cur.close(); conn.close()
 
-    # 3. max(severity_score) from bottleneck_report
-    max_severity = db.query(func.max(BottleneckReport.severity_score)).scalar() or 0
-
-    # 4. avg(vehicle_count) from congestion_record
-    avg_vehicle_count = db.query(func.avg(CongestionRecord.vehicle_count)).scalar() or 0
+    on_time_pct = 0.0
+    if trips and trips["total"] and trips["total"] > 0:
+        on_time_pct = round((trips["on_time"] / trips["total"]) * 100, 1)
 
     return {
-        "avg_congestion": float(avg_congestion),
-        "on_time_pct": float(on_time_pct),
-        "max_severity": float(max_severity),
-        "avg_vehicle_count": float(avg_vehicle_count)
+        "avg_congestion": round(float(cong["avg_congestion"] or 0), 1),
+        "avg_vehicle_count": round(float(cong["avg_vehicle_count"] or 0), 1),
+        "on_time_pct": on_time_pct,
+        "max_severity": round(float(sev["max_severity"] or 0), 1),
+        "total_routes": int(routes["total_routes"] or 0),
+        "total_vehicles": int(vehicles["total_vehicles"] or 0),
+        "total_nodes": int(nodes["total_nodes"] or 0),
     }
 
 app.include_router(router)
 
-
+@app.get("/health")
+def health():
+    return {"status": "ok"}
