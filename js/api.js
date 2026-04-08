@@ -228,24 +228,46 @@ const MOCK = {
 };
 
 // ── Core fetch helper ────────────────────────────────────────────────────────
-async function apiFetch(path, mockKey) {
-  try {
-    const res = await fetch(`${BASE_URL}${path}`, {
-      headers: { 'Accept': 'application/json' },
-      signal: AbortSignal.timeout(5000)
-    });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    return { data: await res.json(), source: 'api' };
-  } catch (err) {
-    console.warn(`[OC] ${path} unreachable (${err.message}) — using mock data`);
-    return { data: MOCK[mockKey], source: 'mock' };
-  }
+async function apiFetch(path) {
+  const res = await fetch(`${BASE_URL}${path}`, {
+    headers: { 'Accept': 'application/json' },
+    signal: AbortSignal.timeout(5000)
+  });
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  return { data: await res.json(), source: 'api' };
 }
 
 // ── Public API ───────────────────────────────────────────────────────────────
-async function fetchTrips()       { return apiFetch('/trips',      'trips');      }
-async function fetchVehicles()    { return apiFetch('/vehicles',   'vehicles');   }
-async function fetchDelays()      { return apiFetch('/delays',     'delays');     }
-async function fetchCongestion()  { return apiFetch('/congestion', 'congestion'); }
-async function fetchBottlenecks() { return apiFetch('/bottlenecks','bottlenecks');}
-async function fetchPositions()   { return apiFetch('/positions',  'positions');  }
+async function fetchTrips()       { return apiFetch('/trips');      }
+async function fetchVehicles()    { return apiFetch('/vehicles');   }
+async function fetchDelays()      { return apiFetch('/delays');     }
+async function fetchCongestion()  { return apiFetch('/congestion'); }
+async function fetchBottlenecks() { return apiFetch('/bottlenecks');}
+async function fetchPositions()   { return apiFetch('/positions');  }
+
+// ── Transaction & User API ───────────────────────────────────────────────────
+async function addUser(userData) {
+  const res = await fetch(`${BASE_URL}/users`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(userData)
+  });
+  if (!res.ok) {
+    const err = await res.json();
+    throw new Error(err.detail || `HTTP ${res.status}`);
+  }
+  return await res.json();
+}
+
+async function addTransaction(txnData) {
+  const res = await fetch(`${BASE_URL}/transactions`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(txnData)
+  });
+  if (!res.ok) {
+    const err = await res.json();
+    throw new Error(err.detail || `HTTP ${res.status}`);
+  }
+  return await res.json();
+}

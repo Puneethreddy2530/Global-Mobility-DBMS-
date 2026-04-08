@@ -310,7 +310,6 @@ function renderAlerts(delays) {
             <span>·</span>
             <span>${d.node?.country || ''}</span>
           </div>
-          <button class="text-xs font-bold ${meta.text} uppercase tracking-widest hover:underline">${btnLabel}</button>
         </div>
       </div>`;
   }).join('');
