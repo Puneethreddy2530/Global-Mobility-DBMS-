@@ -22,12 +22,14 @@ from database import get_db
 from models import (
     Trip, Vehicle, Carrier, Route, LocationNode,
     TrafficSegment, CongestionRecord, DelayEvent,
-    BottleneckReport, PositionLog
+    BottleneckReport, PositionLog, User, Transaction
 )
 from schemas import (
     TripOut, VehicleOut, DelayOut, CongestionOut,
-    BottleneckOut, PositionOut
+    BottleneckOut, PositionOut,
+    UserCreate, UserOut, TransactionCreate, TransactionOut
 )
+from datetime import datetime
 
 app = FastAPI(
     title="Orbital Command API",
@@ -39,7 +41,7 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],          # tighten in production
-    allow_methods=["GET"],
+    allow_methods=["*"],
     allow_headers=["*"],
 )
 
@@ -181,3 +183,69 @@ def get_positions(
     if trip_id is not None:
         q = q.filter(PositionLog.trip_id == trip_id)
     return q.limit(limit).all()
+
+
+# ── POST /users ───────────────────────────────────────────────────────────────
+@app.post("/users", response_model=UserOut, tags=["users"])
+def create_user(user: UserCreate, db: Session = Depends(get_db)):
+    """Create a new user."""
+    # Check if user already exists
+    existing_user = db.query(User).filter((User.username == user.username) | (User.email == user.email)).first()
+    if existing_user:
+        from fastapi import HTTPException
+        raise HTTPException(status_code=400, detail="Username or email already registered")
+        
+    new_user = User(username=user.username, email=user.email)
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
+    return new_user
+
+
+# ── GET /users ────────────────────────────────────────────────────────────────
+@app.get("/users", response_model=List[UserOut], tags=["users"])
+def get_users(limit: int = Query(50, ge=1, le=500), db: Session = Depends(get_db)):
+    """Fetch all registered users."""
+    return db.query(User).limit(limit).all()
+
+
+# ── POST /transactions ────────────────────────────────────────────────────────
+@app.post("/transactions", response_model=TransactionOut, tags=["transactions"])
+def create_transaction(transaction: TransactionCreate, db: Session = Depends(get_db)):
+    """Create a new transaction for a user."""
+    from fastapi import HTTPException
+    
+    # Ensure user exists
+    user = db.query(User).filter(User.user_id == transaction.user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+        
+    new_txn = Transaction(
+        user_id=transaction.user_id,
+        amount=transaction.amount,
+        transaction_type=transaction.transaction_type.upper(),
+        timestamp=datetime.utcnow()
+    )
+    db.add(new_txn)
+    db.commit()
+    db.refresh(new_txn)
+    return new_txn
+
+
+# ── GET /transactions ─────────────────────────────────────────────────────────
+@app.get("/transactions", response_model=List[TransactionOut], tags=["transactions"])
+def get_transactions(
+    user_id: Optional[int] = Query(None, description="Filter by user_id"),
+    limit: int = Query(50, ge=1, le=500), 
+    db: Session = Depends(get_db)
+):
+    """Fetch all transactions."""
+    q = (
+        db.query(Transaction)
+        .options(joinedload(Transaction.user))
+        .order_by(Transaction.timestamp.desc())
+    )
+    if user_id is not None:
+        q = q.filter(Transaction.user_id == user_id)
+    return q.limit(limit).all()
+

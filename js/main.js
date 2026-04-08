@@ -61,4 +61,57 @@ setInterval(tickPositions, 4_000);
 setInterval(pollPositions, POLL_INTERVAL_MS);
 
 // ── Start ────────────────────────────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', () => { init().catch(console.error); });
+document.addEventListener('DOMContentLoaded', () => { 
+  init().catch(console.error); 
+
+  // User Form Listener
+  document.getElementById('addUserForm')?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      try {
+          const btn = e.target.querySelector('button');
+          btn.innerHTML = "Processing...";
+          btn.disabled = true;
+
+          const data = {
+              username: document.getElementById('username').value,
+              email: document.getElementById('email').value
+          };
+          
+          await addUser(data);
+          alert(`Success! User [${data.username}] provisioned to the Orbital Network constraints.`);
+          e.target.reset();
+      } catch (err) {
+          alert(err.message);
+      } finally {
+          const btn = e.target.querySelector('button');
+          btn.innerHTML = "Provision User";
+          btn.disabled = false;
+      }
+  });
+
+  // Transaction Form Listener
+  document.getElementById('addTransactionForm')?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      try {
+          const btn = e.target.querySelector('button');
+          btn.innerHTML = "Processing...";
+          btn.disabled = true;
+
+          const data = {
+              user_id: parseInt(document.getElementById('txn_user_id').value, 10),
+              amount: parseFloat(document.getElementById('txn_amount').value),
+              transaction_type: document.getElementById('txn_type').value
+          };
+          
+          await addTransaction(data);
+          alert(`Success! Transaction [${data.transaction_type}] approved across nodes.`);
+          e.target.reset();
+      } catch (err) {
+          alert('Error: Likely invalid User ID or network failure. ' + err.message);
+      } finally {
+          const btn = e.target.querySelector('button');
+          btn.innerHTML = "Process Transaction";
+          btn.disabled = false;
+      }
+  });
+});

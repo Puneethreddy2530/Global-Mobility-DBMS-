@@ -509,6 +509,48 @@ body {
 </div>
 </div>
 </section>
+
+<!-- Section 10: Registration & Transactions (Added from requirements) -->
+<section class="py-20 px-12 bg-surface-container-low border-t border-white/5">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row gap-8">
+        
+        <!-- User Registration Form -->
+        <div id="user-registration" class="glass-panel p-8 rounded-xl border border-primary/20 flex-1">
+            <div class="flex items-center gap-3 mb-6">
+                <span class="material-symbols-outlined text-primary">person_add</span>
+                <h2 class="text-2xl font-headline font-bold text-white uppercase tracking-tighter">Register User</h2>
+            </div>
+            <form id="addUserForm" class="flex flex-col gap-4">
+                <input type="text" id="username" placeholder="Username" class="bg-surface/50 border border-white/10 p-3 text-white rounded font-body focus:border-primary focus:outline-none transition-colors" required>
+                <input type="email" id="email" placeholder="Email Address" class="bg-surface/50 border border-white/10 p-3 text-white rounded font-body focus:border-primary focus:outline-none transition-colors" required>
+                <button type="submit" class="mt-4 bg-gradient-to-r from-primary to-primary-dim text-on-primary-fixed font-bold py-3 px-4 rounded uppercase tracking-widest hover:scale-[1.02] active:scale-[0.98] transition-transform">Provision User</button>
+            </form>
+        </div>
+
+        <!-- Transaction Execution Form -->
+        <div id="transaction-execution" class="glass-panel p-8 rounded-xl border border-secondary/20 flex-1">
+            <div class="flex items-center gap-3 mb-6">
+                <span class="material-symbols-outlined text-secondary">payments</span>
+                <h2 class="text-2xl font-headline font-bold text-white uppercase tracking-tighter">Execute Transaction</h2>
+            </div>
+            <form id="addTransactionForm" class="flex flex-col gap-4">
+                <input type="number" id="txn_user_id" placeholder="User ID" class="bg-surface/50 border border-white/10 p-3 text-white rounded font-body focus:border-secondary focus:outline-none transition-colors" required>
+                <div class="flex gap-4">
+                    <input type="number" step="0.01" id="txn_amount" placeholder="Amount (e.g. 1500.00)" class="w-1/2 bg-surface/50 border border-white/10 p-3 text-white rounded font-body focus:border-secondary focus:outline-none transition-colors" required>
+                    <select id="txn_type" class="w-1/2 bg-surface/50 border border-white/10 p-3 text-white rounded font-body focus:border-secondary focus:outline-none transition-colors" required>
+                        <option value="TICKET_PURCHASE">Ticket Purchase</option>
+                        <option value="FREIGHT_PAYMENT">Freight Payment</option>
+                        <option value="SUBSCRIPTION">Network Subscription</option>
+                        <option value="REFUND">Refund</option>
+                    </select>
+                </div>
+                <button type="submit" class="mt-4 bg-gradient-to-r from-secondary to-secondary-dim text-on-secondary-fixed font-bold py-3 px-4 rounded uppercase tracking-widest hover:scale-[1.02] active:scale-[0.98] transition-transform">Process Transaction</button>
+            </form>
+        </div>
+        
+    </div>
+</section>
+
 </main>
 <!-- Footer -->
 <footer class="bg-[#0e0e0e] w-full py-12 border-t border-white/5 mt-32">

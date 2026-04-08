@@ -112,3 +112,28 @@ class PositionOut(_Base):
     longitude: Decimal
     altitude:  Optional[Decimal]
     speed:     Decimal
+
+# ── Users ─────────────────────────────────────────────────────────────────────
+class UserCreate(BaseModel):
+    username: str
+    email: str
+
+class UserOut(_Base):
+    user_id: int
+    username: str
+    email: str
+
+
+# ── Transactions ──────────────────────────────────────────────────────────────
+class TransactionCreate(BaseModel):
+    user_id: int
+    amount: Decimal
+    transaction_type: str
+
+class TransactionOut(_Base):
+    transaction_id: int
+    user_id: int
+    amount: Decimal
+    transaction_type: str
+    timestamp: datetime
+    user: Optional[UserOut] = None
