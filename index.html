@@ -96,8 +96,8 @@ body {
     border: 1px solid rgba(143, 245, 255, 0.1)
     }
 .grain-overlay {
-    background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuBcATMUdJnR8O_8FqzhTLmKk7C_aUG8FaPDSxu0zVT17Q1tcwVWxXqJUXpSZUqAIm5eZionWiVGSSnlX_K6m-6XerTW23TAgliZ1tvj9zyXwczUiHQFnvcprQM0xBrZnNohphrbBdy5WrpYwIiy-L0GTOqGaLZnNwACgVmVwXIIMEXvZzyxiljTeisw2yi7SIp_cNdcpu-MeSoBL3vOYpAcNbb0Y3wPc08f0r6i_3bQ4P34Fe14Kl_pQzK5EN-XV53xyY7kwTq1Rso);
-    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    opacity: 0.15;
     pointer-events: none
     }
 .asymmetric-grid {
@@ -112,7 +112,7 @@ body {
 <div class="text-xl font-bold tracking-tighter text-[#00F0FF] uppercase font-['Space_Grotesk']">
             ORBITAL COMMAND
         </div>
-<div class="hidden space-x-8 font-['Space_Grotesk'] tracking-tight">
+<div class="md:flex space-x-8 font-['Space_Grotesk'] tracking-tight">
 <a class="text-[#00F0FF] border-b-2 border-[#00F0FF] pb-1" href="#">Fleet</a>
 <a class="text-slate-400 hover:text-white transition-colors" href="#">Network</a>
 <a class="text-slate-400 hover:text-white transition-colors" href="#">Nodes</a>
@@ -126,12 +126,12 @@ body {
 <span class="hidden material-symbols-outlined text-[#00F0FF] cursor-pointer hover:bg-[#8ff5ff]/5 p-2 rounded-full transition-all">notifications</span>
 <span class="hidden material-symbols-outlined text-[#00F0FF] cursor-pointer hover:bg-[#8ff5ff]/5 p-2 rounded-full transition-all">settings</span>
 <div class="w-8 h-8 rounded-full border border-primary/30 overflow-hidden">
-<img alt="User Intelligence Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBhGdI0kbS1P8-ptSwX95JTuoMqpN2vCTg8A63y_YluQrbQxoXrEPUd4EfpZkwG2iMragdPJRlgSVr-taMGqbt7-3HJLuXoRmdlkYITmNbD-5DxTdySFbbziyhdg9sEtfdgux7Kr5LMHhaxNGMjq9YOR5qwEYdz8Cx54P3VZ2Qi4RRsfI2KEib_W9b1kxoIA0z8FMpp5yRFXkJBSshC4YdVP02qbB1TnbAIZWE3F_odGxyT7HU5AVsA2pGpaucB21yv-L36YZxVwu11NQ0"/>
+<img alt="User Intelligence Profile" class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1522878129833-838a904a0e9e?w=120"/>
 </div>
 </div>
 </nav>
 <!-- Side Navigation Bar -->
-<aside class="hidden fixed left-0 top-0 h-screen w-20 hover:w-64 group transition-all duration-500 z-[90] bg-[#131313]/60 backdrop-blur-2xl border-r border-[#8ff5ff]/5 flex flex-col py-20 items-center overflow-hidden shadow-2xl shadow-black">
+<aside class="fixed left-0 top-0 h-screen w-20 hover:w-64 group transition-all duration-500 z-[90] bg-[#131313]/60 backdrop-blur-2xl border-r border-[#8ff5ff]/5 flex flex-col py-20 items-center overflow-hidden shadow-2xl shadow-black">
 <div class="flex flex-col gap-8 w-full">
 <div class="flex items-center px-6 w-full bg-gradient-to-r from-[#00F0FF]/20 to-transparent text-[#00F0FF] border-l-4 border-[#00F0FF] py-3 cursor-pointer">
 <span class="material-symbols-outlined min-w-[32px]">dashboard</span>

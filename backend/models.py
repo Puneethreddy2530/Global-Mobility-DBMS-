@@ -155,25 +155,3 @@ class PositionLog(Base):
     speed     = Column(Numeric(6, 2), nullable=False)
 
     trip = relationship("Trip", back_populates="positions")
-
-
-class User(Base):
-    __tablename__ = "users"
-    
-    user_id  = Column(Integer, primary_key=True, index=True)
-    username = Column(String(50), unique=True, nullable=False)
-    email    = Column(String(100), unique=True, nullable=False)
-    
-    transactions = relationship("Transaction", back_populates="user")
-
-
-class Transaction(Base):
-    __tablename__ = "transactions"
-    
-    transaction_id   = Column(Integer, primary_key=True, index=True)
-    user_id          = Column(Integer, ForeignKey("users.user_id"))
-    amount           = Column(Numeric(10, 2), nullable=False)
-    transaction_type = Column(String(50), nullable=False)
-    timestamp        = Column(TIMESTAMP, nullable=False)
-
-    user = relationship("User", back_populates="transactions")

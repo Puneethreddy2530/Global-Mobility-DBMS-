@@ -238,36 +238,10 @@ async function apiFetch(path) {
 }
 
 // ── Public API ───────────────────────────────────────────────────────────────
-async function fetchTrips()       { return apiFetch('/trips');      }
-async function fetchVehicles()    { return apiFetch('/vehicles');   }
-async function fetchDelays()      { return apiFetch('/delays');     }
-async function fetchCongestion()  { return apiFetch('/congestion'); }
-async function fetchBottlenecks() { return apiFetch('/bottlenecks');}
-async function fetchPositions()   { return apiFetch('/positions');  }
-
-// ── Transaction & User API ───────────────────────────────────────────────────
-async function addUser(userData) {
-  const res = await fetch(`${BASE_URL}/users`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(userData)
-  });
-  if (!res.ok) {
-    const err = await res.json();
-    throw new Error(err.detail || `HTTP ${res.status}`);
-  }
-  return await res.json();
-}
-
-async function addTransaction(txnData) {
-  const res = await fetch(`${BASE_URL}/transactions`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(txnData)
-  });
-  if (!res.ok) {
-    const err = await res.json();
-    throw new Error(err.detail || `HTTP ${res.status}`);
-  }
-  return await res.json();
-}
+async function fetchTrips()       { return apiFetch('/api/trips'); }
+async function fetchVehicles()    { return apiFetch('/api/vehicles'); }
+async function fetchDelays()      { return apiFetch('/api/delays'); }
+async function fetchCongestion()  { return apiFetch('/api/congestion'); }
+async function fetchBottleneck()  { return apiFetch('/api/bottleneck'); }
+async function fetchPositionCount(){ return apiFetch('/api/position'); }
+async function fetchStats()       { return apiFetch('/api/stats'); }

@@ -13,21 +13,21 @@ Run:
   uvicorn main:app --reload --port 8000
 """
 
-from fastapi import FastAPI, Depends, Query
+from fastapi import FastAPI, Depends, Query, APIRouter
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session, joinedload
+from sqlalchemy import func
 from typing import List, Optional
 
 from database import get_db
 from models import (
     Trip, Vehicle, Carrier, Route, LocationNode,
     TrafficSegment, CongestionRecord, DelayEvent,
-    BottleneckReport, PositionLog, User, Transaction
+    BottleneckReport, PositionLog
 )
 from schemas import (
     TripOut, VehicleOut, DelayOut, CongestionOut,
-    BottleneckOut, PositionOut,
-    UserCreate, UserOut, TransactionCreate, TransactionOut
+    BottleneckOut, PositionOut
 )
 from datetime import datetime
 
@@ -46,14 +46,16 @@ app.add_middleware(
 )
 
 
+# ── Router ────────────────────────────────────────────────────────────────────
+router = APIRouter(prefix="/api")
+
 # ── Health ────────────────────────────────────────────────────────────────────
 @app.get("/", tags=["health"])
 def root():
     return {"status": "operational", "service": "Orbital Command API"}
 
-
 # ── GET /trips ────────────────────────────────────────────────────────────────
-@app.get("/trips", response_model=List[TripOut], tags=["trips"])
+@router.get("/trips", response_model=List[TripOut], tags=["trips"])
 def get_trips(
     status: Optional[str] = Query(None, description="Filter by trip_status"),
     limit:  int           = Query(50,   ge=1, le=500),
@@ -81,7 +83,7 @@ def get_trips(
 
 
 # ── GET /vehicles ─────────────────────────────────────────────────────────────
-@app.get("/vehicles", response_model=List[VehicleOut], tags=["vehicles"])
+@router.get("/vehicles", response_model=List[VehicleOut], tags=["vehicles"])
 def get_vehicles(
     vehicle_type: Optional[str] = Query(None, description="AIRCRAFT | TRAIN | SHIP"),
     db: Session = Depends(get_db)
@@ -101,7 +103,7 @@ def get_vehicles(
 
 
 # ── GET /delays ───────────────────────────────────────────────────────────────
-@app.get("/delays", response_model=List[DelayOut], tags=["delays"])
+@router.get("/delays", response_model=List[DelayOut], tags=["delays"])
 def get_delays(
     reason: Optional[str] = Query(None, description="WEATHER | TRAFFIC | MAINTENANCE | CONTROL | UNKNOWN"),
     limit:  int           = Query(50, ge=1, le=500),
@@ -125,7 +127,7 @@ def get_delays(
 
 
 # ── GET /congestion ───────────────────────────────────────────────────────────
-@app.get("/congestion", response_model=List[CongestionOut], tags=["congestion"])
+@router.get("/congestion", response_model=List[CongestionOut], tags=["congestion"])
 def get_congestion(
     min_level: Optional[int] = Query(None, ge=0, le=100, description="Min congestion_level"),
     limit:     int           = Query(50, ge=1, le=500),
@@ -146,7 +148,7 @@ def get_congestion(
 
 
 # ── GET /bottlenecks ──────────────────────────────────────────────────────────
-@app.get("/bottlenecks", response_model=List[BottleneckOut], tags=["bottlenecks"])
+@router.get("/bottleneck", response_model=List[BottleneckOut], tags=["bottlenecks"])
 def get_bottlenecks(
     min_severity: Optional[float] = Query(None, description="Min severity_score"),
     db: Session = Depends(get_db)
@@ -165,87 +167,38 @@ def get_bottlenecks(
     return q.all()
 
 
-# ── GET /positions ────────────────────────────────────────────────────────────
-@app.get("/positions", response_model=List[PositionOut], tags=["positions"])
-def get_positions(
-    trip_id: Optional[int] = Query(None, description="Filter by trip_id"),
-    limit:   int           = Query(100, ge=1, le=1000),
-    db: Session = Depends(get_db)
-):
-    """
-    Returns position logs ordered by timestamp DESC.
-    Optionally filtered to a single trip.
-    """
-    q = (
-        db.query(PositionLog)
-        .order_by(PositionLog.timestamp.desc())
-    )
-    if trip_id is not None:
-        q = q.filter(PositionLog.trip_id == trip_id)
-    return q.limit(limit).all()
+# ── GET /position ────────────────────────────────────────────────────────────
+@router.get("/position", tags=["positions"])
+def get_position_count(db: Session = Depends(get_db)):
+    """Returns count of distinct trip_ids in position_log."""
+    count = db.query(func.count(func.distinct(PositionLog.trip_id))).scalar()
+    return {"live_asset_count": count or 0}
 
+# ── GET /stats ────────────────────────────────────────────────────────────
+@router.get("/stats", tags=["stats"])
+def get_stats(db: Session = Depends(get_db)):
+    """Aggregate statistics for the dashboard."""
+    # 1. avg(congestion_level)
+    avg_congestion = db.query(func.avg(CongestionRecord.congestion_level)).scalar() or 0
 
-# ── POST /users ───────────────────────────────────────────────────────────────
-@app.post("/users", response_model=UserOut, tags=["users"])
-def create_user(user: UserCreate, db: Session = Depends(get_db)):
-    """Create a new user."""
-    # Check if user already exists
-    existing_user = db.query(User).filter((User.username == user.username) | (User.email == user.email)).first()
-    if existing_user:
-        from fastapi import HTTPException
-        raise HTTPException(status_code=400, detail="Username or email already registered")
-        
-    new_user = User(username=user.username, email=user.email)
-    db.add(new_user)
-    db.commit()
-    db.refresh(new_user)
-    return new_user
+    # 2. count(trip) ON_TIME / total
+    total_trips = db.query(func.count(Trip.trip_id)).scalar() or 1
+    on_time_trips = db.query(func.count(Trip.trip_id)).filter(Trip.trip_status == 'ON_TIME').scalar() or 0
+    on_time_pct = (on_time_trips / total_trips) * 100
 
+    # 3. max(severity_score) from bottleneck_report
+    max_severity = db.query(func.max(BottleneckReport.severity_score)).scalar() or 0
 
-# ── GET /users ────────────────────────────────────────────────────────────────
-@app.get("/users", response_model=List[UserOut], tags=["users"])
-def get_users(limit: int = Query(50, ge=1, le=500), db: Session = Depends(get_db)):
-    """Fetch all registered users."""
-    return db.query(User).limit(limit).all()
+    # 4. avg(vehicle_count) from congestion_record
+    avg_vehicle_count = db.query(func.avg(CongestionRecord.vehicle_count)).scalar() or 0
 
+    return {
+        "avg_congestion": float(avg_congestion),
+        "on_time_pct": float(on_time_pct),
+        "max_severity": float(max_severity),
+        "avg_vehicle_count": float(avg_vehicle_count)
+    }
 
-# ── POST /transactions ────────────────────────────────────────────────────────
-@app.post("/transactions", response_model=TransactionOut, tags=["transactions"])
-def create_transaction(transaction: TransactionCreate, db: Session = Depends(get_db)):
-    """Create a new transaction for a user."""
-    from fastapi import HTTPException
-    
-    # Ensure user exists
-    user = db.query(User).filter(User.user_id == transaction.user_id).first()
-    if not user:
-        raise HTTPException(status_code=404, detail="User not found")
-        
-    new_txn = Transaction(
-        user_id=transaction.user_id,
-        amount=transaction.amount,
-        transaction_type=transaction.transaction_type.upper(),
-        timestamp=datetime.utcnow()
-    )
-    db.add(new_txn)
-    db.commit()
-    db.refresh(new_txn)
-    return new_txn
+app.include_router(router)
 
-
-# ── GET /transactions ─────────────────────────────────────────────────────────
-@app.get("/transactions", response_model=List[TransactionOut], tags=["transactions"])
-def get_transactions(
-    user_id: Optional[int] = Query(None, description="Filter by user_id"),
-    limit: int = Query(50, ge=1, le=500), 
-    db: Session = Depends(get_db)
-):
-    """Fetch all transactions."""
-    q = (
-        db.query(Transaction)
-        .options(joinedload(Transaction.user))
-        .order_by(Transaction.timestamp.desc())
-    )
-    if user_id is not None:
-        q = q.filter(Transaction.user_id == user_id)
-    return q.limit(limit).all()
 
